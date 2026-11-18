@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Livre d'Or App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            background: #f4f4f4;
+            color: #222;
+        }
+        h1 { color: #2c3e50; }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        input[type=text], textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0 14px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #2c3e50;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background: #1a252f; }
+        .comment {
+            background: #fff;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .comment .name { font-weight: bold; color: #2c3e50; }
+        .reset {
+            margin-top: 30px;
+        }
+        .reset button {
+            background: #b03a2e;
+        }
+        .reset button:hover { background: #8e2f25; }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffe08a;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1> Livre d'Or</h1>
+
+     
+
+    <form action="/post" method="POST">
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+
+        <button type="submit">Publier</button>
+    </form>
+
+    <h2>Commentaires ({{ comments|length }})</h2>
+
+    {% for c in comments %}
+    <div class="comment">
+        <div class="name">{{ c['name']|safe }}</div>
+        <div class="message">{{ c['message']|safe }}</div>
+    </div>
+    {% else %}
+    <p>Aucun commentaire pour le moment.</p>
+    {% endfor %}
+
+    <form class="reset" action="/reset" method="POST" onsubmit="return confirm('Vider tous les commentaires ?');">
+        <button type="submit">🗑️ Réinitialiser les commentaires</button>
+    </form>
+</body>
+</html>
